@@ -9,7 +9,7 @@ import { login } from "../../../../lib/actions/auth";
 
 const Login = () => {
   const router = useRouter();
-  const state = useActionState(login);
+  const [state, formAction] = useActionState(login, {});
   const [phoneNum, setPhoneNum] = useState(null);
   const [code, setCode] = useState(["", "", "", ""]);
   const formRef = useRef(null);
@@ -40,7 +40,6 @@ const Login = () => {
   }, [state, router]);
 
   useEffect(() => {
-    // وقتی همه‌ی رقم‌ها پر شدن، فرم سابمیت بشه
     if (code.every((digit) => digit !== "")) {
       formRef.current?.requestSubmit();
     }
@@ -76,7 +75,7 @@ const Login = () => {
       <p>لطفا کد تاییدی که به شماره ی {phoneNum} پیامک شده را وارد کنید</p>
       <form
         ref={formRef}
-        action={login}
+        action={formAction}
         className="w-full flex flex-col items-center"
       >
         <div className="flex flex-row-reverse gap-4 mt-4">

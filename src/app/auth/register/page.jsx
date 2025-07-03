@@ -65,7 +65,6 @@ const Register = () => {
         </div>
       </form>
 
-      {/* مودال قوانین */}
       <ModalWrapper isOpen={showModal} onClose={() => setShowModal(false)}>
         <h2 className="text-lg font-bold mb-4">قوانین تکسایز</h2>
         <div className="max-h-[70vh] overflow-y-auto pr-2">
