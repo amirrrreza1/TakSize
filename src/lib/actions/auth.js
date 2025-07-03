@@ -84,7 +84,6 @@ async function login(state, formData) {
       sameSite: "lax",
     });
   }
-
   redirect("/profile");
 }
 

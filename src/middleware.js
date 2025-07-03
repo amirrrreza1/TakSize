@@ -5,13 +5,13 @@ export async function middleware(request) {
   const url = request.nextUrl.clone();
   const path = url.pathname;
 
-  if (path === "/auth/register" && token) {
+  if (path === "/login" && token) {
     url.pathname = "/profile";
     return NextResponse.redirect(url);
   }
 
   if (path === "/profile" && !token) {
-    url.pathname = "/auth/register";
+    url.pathname = "/login";
     return NextResponse.redirect(url);
   }
 
@@ -19,5 +19,5 @@ export async function middleware(request) {
 }
 
 export const config = {
-  matcher: ["/auth/register", "/profile"],
+  matcher: ["/login", "/profile"],
 };
