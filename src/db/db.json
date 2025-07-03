@@ -1,0 +1,40 @@
+{
+  "header": [
+    {
+      "id": 1,
+      "title": "خانه",
+      "path": "/1",
+      "icon": "/icons/home.svg",
+      "fullIcon": "/icons/home-full.svg",
+      "checkedIcon": "/icons/home.svg"
+    },
+    {
+      "id": 2,
+      "title": "علاقمندی",
+      "path": "/favorite/ads",
+      "icon": "/icons/like.svg",
+      "fullIcon": "/icons/favorite-icon.svg"
+    },
+    {
+      "id": 3,
+      "title": "برند ها",
+      "path": "/brand",
+      "icon": "/icons/brand.svg",
+      "fullIcon": "/icons/brand-full.svg"
+    },
+    {
+      "id": 4,
+      "title": "چت",
+      "path": "/chat",
+      "icon": "/icons/brand-line.svg",
+      "fullIcon": "/icons/chat.svg"
+    },
+    {
+      "id": 5,
+      "title": "تک شو",
+      "path": "/profile",
+      "icon": "/icons/user.svg",
+      "fullIcon": "/icons/Tak.svg"
+    }
+  ]
+}
