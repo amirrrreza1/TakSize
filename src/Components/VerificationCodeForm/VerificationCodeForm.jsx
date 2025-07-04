@@ -13,10 +13,12 @@ export default function VerificationCodeForm({ phoneNumber, onBack }) {
   const formRef = useRef(null);
   const inputRefs = useRef([]);
 
+  /* فوکوس اولیه روی اولین خانه */
   useEffect(() => {
     inputRefs.current[0]?.focus();
   }, []);
 
+  /* وقتی ۴ رقم پر شد، submit کن */
   useEffect(() => {
     if (code.every((d) => d !== "")) formRef.current?.requestSubmit();
   }, [code]);
@@ -38,9 +40,10 @@ export default function VerificationCodeForm({ phoneNumber, onBack }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (loading) return;
     setLoading(true);
-    const activationCode = code.join("");
 
+    const activationCode = code.join("");
     if (activationCode.length !== 4) {
       toast.error("کد تایید کامل نیست");
       setLoading(false);
@@ -55,17 +58,16 @@ export default function VerificationCodeForm({ phoneNumber, onBack }) {
       });
 
       const data = await res.json();
-
       if (!res.ok || !data.isSuccess) {
         toast.error(data.message || "ورود ناموفق بود");
       } else {
+        /* کوکی‌های HttpOnly سرور کافی‌اند؛ این‌ها فقط نمونهٔ کلاینت‌اند */
         Cookies.set("access_token", data.accessToken, {
-          expires: data.expiresIn / 86400 || 7,
+          expires: (data.expiresIn ?? 604800) / 86400,
           path: "/",
-          sameSite: "Lax", // تغییر
-          secure: true, // مهم
+          sameSite: "Lax",
+          secure: true,
         });
-
         if (data.refreshToken)
           Cookies.set("refresh_token", data.refreshToken, {
             expires: 30,
@@ -76,7 +78,6 @@ export default function VerificationCodeForm({ phoneNumber, onBack }) {
 
         toast.success(data.message);
         router.replace("/profile");
-        router.refresh();
       }
     } catch {
       toast.error("خطای شبکه");

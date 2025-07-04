@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { toast } from "react-toastify";
 import SubmitButton from "@/Components/SubmitButton/SubmitButton";
 import ModalWrapper from "@/Components/ModalWrapper/ModalWrapper";
@@ -12,22 +12,24 @@ export default function PhoneNumberForm({ onSuccess }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (loading) return;
     setLoading(true);
+
     try {
       const res = await fetch("/api/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ phoneNumber }),
-      });      
+      });
 
       const data = await res.json();
       if (!res.ok || data.error) {
         toast.error(data.error || "ارسال ناموفق بود");
       } else {
-        onSuccess(phoneNumber);
+        onSuccess(phoneNumber); // شماره را به والد می‌دهیم
         toast.success("کد تایید ارسال شد");
       }
-    } catch (err) {
+    } catch {
       toast.error("خطای شبکه");
     } finally {
       setLoading(false);
