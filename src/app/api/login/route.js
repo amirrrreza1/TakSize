@@ -44,6 +44,6 @@ export async function POST(request) {
     message: "ورود موفقیت‌آمیز بود",
     accessToken,
     refreshToken,
-    expiresIn: result?.data?.tokens?.access_token?.expires_in, // ثانیه
+    expiresIn: result?.data?.tokens?.access_token?.expires_in,
   });
 }

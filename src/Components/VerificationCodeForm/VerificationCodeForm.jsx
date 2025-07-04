@@ -13,12 +13,10 @@ export default function VerificationCodeForm({ phoneNumber, onBack }) {
   const formRef = useRef(null);
   const inputRefs = useRef([]);
 
-  /* فوکوس اولیه روی اولین خانه */
   useEffect(() => {
     inputRefs.current[0]?.focus();
   }, []);
 
-  /* وقتی ۴ رقم پر شد، submit کن */
   useEffect(() => {
     if (code.every((d) => d !== "")) formRef.current?.requestSubmit();
   }, [code]);
@@ -61,7 +59,6 @@ export default function VerificationCodeForm({ phoneNumber, onBack }) {
       if (!res.ok || !data.isSuccess) {
         toast.error(data.message || "ورود ناموفق بود");
       } else {
-        /* کوکی‌های HttpOnly سرور کافی‌اند؛ این‌ها فقط نمونهٔ کلاینت‌اند */
         Cookies.set("access_token", data.accessToken, {
           expires: (data.expiresIn ?? 604800) / 86400,
           path: "/",
