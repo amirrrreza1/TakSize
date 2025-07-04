@@ -1,13 +1,15 @@
+"use client";
+
 import React, { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
-import { login } from "../../lib/actions/auth";
-import SubmitButton from "../../Components/SubmitButton/SubmitButton";
+import Cookies from "js-cookie";
+import SubmitButton from "@/Components/SubmitButton/SubmitButton";
 
 export default function VerificationCodeForm({ phoneNumber, onBack }) {
   const router = useRouter();
-  const [state, formAction] = React.useActionState(login, {});
   const [code, setCode] = useState(["", "", "", ""]);
+  const [loading, setLoading] = useState(false);
   const formRef = useRef(null);
   const inputRefs = useRef([]);
 
@@ -16,19 +18,7 @@ export default function VerificationCodeForm({ phoneNumber, onBack }) {
   }, []);
 
   useEffect(() => {
-    if (state?.error) toast.error(state.error);
-    if (state?.message && !state.isSuccess) toast.error(state.message);
-    if (state?.isSuccess) {
-      toast.success(state.message);
-      localStorage.removeItem("phoneNumber");
-      router.push("/profile");
-    }
-  }, [state, router]);
-
-  useEffect(() => {
-    if (code.every((d) => d !== "")) {
-      formRef.current?.requestSubmit();
-    }
+    if (code.every((d) => d !== "")) formRef.current?.requestSubmit();
   }, [code]);
 
   const handleChange = (e, idx) => {
@@ -37,28 +27,66 @@ export default function VerificationCodeForm({ phoneNumber, onBack }) {
       const newCode = [...code];
       newCode[idx] = val;
       setCode(newCode);
-      if (val && idx < 3) {
-        setTimeout(() => {
-          inputRefs.current[idx + 1]?.focus();
-        }, 0);
-      }
+      if (val && idx < 3) inputRefs.current[idx + 1]?.focus();
     }
   };
 
   const handleKeyDown = (e, idx) => {
-    if (e.key === "Backspace" && !code[idx] && idx > 0) {
+    if (e.key === "Backspace" && !code[idx] && idx > 0)
       inputRefs.current[idx - 1]?.focus();
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    const activationCode = code.join("");
+
+    try {
+      const res = await fetch("/api/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ phoneNumber, activationCode }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok || !data.isSuccess) {
+        toast.error(data.message || "ورود ناموفق بود");
+      } else {
+        // ست‌کردن توکن‌ها در کلاینت
+        Cookies.set("access_token", data.accessToken, {
+          expires: data.expiresIn / 86400 || 7, // روز
+          path: "/",
+          sameSite: "lax",
+        });
+        if (data.refreshToken)
+          Cookies.set("refresh_token", data.refreshToken, {
+            expires: 30,
+            path: "/",
+            sameSite: "lax",
+          });
+
+        toast.success(data.message);
+        localStorage.removeItem("phoneNumber");
+        router.push("/profile");
+      }
+    } catch {
+      toast.error("خطای شبکه");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className="flex flex-col justify-center items-center gap-y-6 h-screen">
       <h1>کد تایید را وارد کنید</h1>
-      <p className="w-[90%] mx-auto text-center">لطفا کد تاییدی که به شماره‌ی {phoneNumber} پیامک شده را وارد کنید</p>
+      <p className="w-[90%] mx-auto text-center">
+        لطفا کد تاییدی که به شماره‌ی {phoneNumber} پیامک شده را وارد کنید
+      </p>
 
       <form
         ref={formRef}
-        action={formAction}
+        onSubmit={handleSubmit}
         className="w-full flex flex-col items-center"
       >
         <div className="flex flex-row-reverse gap-4 mt-4">
@@ -67,7 +95,6 @@ export default function VerificationCodeForm({ phoneNumber, onBack }) {
               key={idx}
               ref={(el) => (inputRefs.current[idx] = el)}
               type="text"
-              name={`digit-${idx}`}
               inputMode="numeric"
               maxLength={1}
               value={num}
@@ -78,9 +105,8 @@ export default function VerificationCodeForm({ phoneNumber, onBack }) {
           ))}
         </div>
 
-        <input type="hidden" name="activationCode" value={code.join("")} />
         <div className="mx-auto mt-5 flex flex-col gap-3">
-          <SubmitButton title="ورود" />
+          <SubmitButton title="ورود" disabled={code.includes("") || loading} />
           <button
             type="button"
             onClick={onBack}
