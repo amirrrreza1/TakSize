@@ -23,11 +23,11 @@ export default function PhoneNumberForm({ onSuccess }) {
       });
 
       const data = await res.json();
-      if (!res.ok || data.error) {
-        toast.error(data.error || "ارسال ناموفق بود");
+      if (!data.isSuccess) {
+        toast.error(data.message || "ارسال ناموفق بود");
       } else {
         onSuccess(phoneNumber);
-        toast.success("کد تایید ارسال شد");
+        toast.success("کد تأیید ارسال شد");
       }
     } catch {
       toast.error("خطای شبکه");
