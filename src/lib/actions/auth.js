@@ -4,8 +4,10 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 async function register(state, formData) {
+  const cookieStore = await cookies();
+
   let phoneNumber = formData.get("number");
-  cookies().set({
+  cookieStore.set({
     name: "phone_number",
     value: phoneNumber,
     httpOnly: true,
@@ -35,8 +37,8 @@ async function register(state, formData) {
 
 async function login(state, formData) {
   let activationCode = formData.get("activationCode");
-  let phoneLocal = cookies().get("phone_number")?.value;
   const cookieStore = await cookies();
+  let phoneLocal = cookieStore.get("phone_number")?.value;
 
   let res = await fetch("https://api.taksize.com/api/v1/Common/Account/Login", {
     method: "POST",
