@@ -6,7 +6,7 @@ import { redirect } from "next/navigation";
 async function register(state, formData) {
   let phoneNumber = formData.get("number");
   cookies().set({
-    name: "phone_nummber",
+    name: "phone_number",
     value: phoneNumber,
     httpOnly: true,
     maxAge: 180,
@@ -35,7 +35,7 @@ async function register(state, formData) {
 
 async function login(state, formData) {
   let activationCode = formData.get("activationCode");
-  let phoneLocal = cookies().get("phone_nummber")?.value;
+  let phoneLocal = cookies().get("phone_number")?.value;
   const cookieStore = await cookies();
 
   let res = await fetch("https://api.taksize.com/api/v1/Common/Account/Login", {
@@ -84,7 +84,11 @@ async function login(state, formData) {
       sameSite: "lax",
     });
   }
-  redirect("/profile");
+  cookieStore.delete("phone_number");
+  return {
+    isSuccess: true,
+    message: "ورود موفقیت‌آمیز بود",
+  };
 }
 
 export { register, login };

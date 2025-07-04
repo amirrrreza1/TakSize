@@ -16,7 +16,7 @@ const ModalWrapper = ({ isOpen, onClose, children }) => {
         {children}
         <button
           onClick={onClose}
-          className="mt-4 w-full bg-red-500 text-white py-2 rounded-xl"
+          className="mt-4 w-full bg-red-500 text-white py-2 rounded-xl cursor-pointer"
         >
           بستن
         </button>

@@ -18,7 +18,7 @@ const Layout = () => {
       });
 
       if (res.ok) {
-        router.push("/auth/register");
+        router.push("/login");
       } else {
         console.error("Logout failed");
       }

@@ -8,7 +8,7 @@ const SubmitButton = ({ title, disabled = false }) => {
 
   return (
     <button
-      className={`text-left px-12 py-2 bg-[var(--mainGreen)] text-white rounded-[30px]  ${
+      className={`text-center px-12 py-2 bg-[var(--mainGreen)] text-white rounded-[30px]  ${
         isDisabled
           ? "opacity-50 cursor-not-allowed"
           : "transition-all ease-linear hover:bg-[#34bdb1]"

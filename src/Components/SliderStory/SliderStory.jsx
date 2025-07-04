@@ -12,8 +12,6 @@ import { Pagination } from "swiper/modules";
 import Image from "next/image";
 import Link from "next/link";
 const SliderStory = ({ data }) => {
-  console.log(data);
-
   return (
     <div className="w-full max-w-4xl mx-auto">
       <Swiper
