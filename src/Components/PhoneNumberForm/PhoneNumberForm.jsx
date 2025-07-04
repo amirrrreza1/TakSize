@@ -24,7 +24,6 @@ export default function PhoneNumberForm({ onSuccess }) {
       if (!res.ok || data.error) {
         toast.error(data.error || "ارسال ناموفق بود");
       } else {
-        localStorage.setItem("phoneNumber", phoneNumber);
         onSuccess(phoneNumber);
         toast.success("کد تایید ارسال شد");
       }

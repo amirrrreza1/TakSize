@@ -75,9 +75,8 @@ export default function VerificationCodeForm({ phoneNumber, onBack }) {
           });
 
         toast.success(data.message);
-        localStorage.removeItem("phoneNumber");
-
-        router.replace("/profile"); // ← refresh حذف شد، replace امن‌تره
+        router.replace("/profile");
+        router.refresh();
       }
     } catch {
       toast.error("خطای شبکه");
