@@ -41,6 +41,12 @@ export default function VerificationCodeForm({ phoneNumber, onBack }) {
     setLoading(true);
     const activationCode = code.join("");
 
+    if (activationCode.length !== 4) {
+      toast.error("کد تایید کامل نیست");
+      setLoading(false);
+      return;
+    }
+
     try {
       const res = await fetch("/api/login", {
         method: "POST",
@@ -53,23 +59,25 @@ export default function VerificationCodeForm({ phoneNumber, onBack }) {
       if (!res.ok || !data.isSuccess) {
         toast.error(data.message || "ورود ناموفق بود");
       } else {
-        // ست‌کردن توکن‌ها در کلاینت
         Cookies.set("access_token", data.accessToken, {
-          expires: data.expiresIn / 86400 || 7, // روز
+          expires: data.expiresIn / 86400 || 7,
           path: "/",
-          sameSite: "lax",
+          sameSite: "Lax", // تغییر
+          secure: true, // مهم
         });
+
         if (data.refreshToken)
           Cookies.set("refresh_token", data.refreshToken, {
             expires: 30,
             path: "/",
-            sameSite: "lax",
+            sameSite: "Lax",
+            secure: true,
           });
 
         toast.success(data.message);
         localStorage.removeItem("phoneNumber");
-        router.push("/profile");
-        router.refresh();
+
+        router.replace("/profile"); // ← refresh حذف شد، replace امن‌تره
       }
     } catch {
       toast.error("خطای شبکه");
