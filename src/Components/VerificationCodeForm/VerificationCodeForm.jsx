@@ -69,6 +69,7 @@ export default function VerificationCodeForm({ phoneNumber, onBack }) {
         toast.success(data.message);
         localStorage.removeItem("phoneNumber");
         router.push("/profile");
+        router.refresh();
       }
     } catch {
       toast.error("خطای شبکه");
