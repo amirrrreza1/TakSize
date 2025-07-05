@@ -1,0 +1,8 @@
+{
+  "app": "dazzling-curie-lh1baqvwb",
+  "port": 3000,
+  "build": {
+    "location": "iran"
+  },
+  "disks": []
+}
