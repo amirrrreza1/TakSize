@@ -12,14 +12,14 @@ const Products = ({
   slug,
   useCategorySlug,
   storeId,
-  adsId,
+  Id,
   onRemoveFromFavorites,
   isFavoritePage = false,
 }) => {
   const [isFavorite, setIsFavorite] = useState(false);
   const [loading, setLoading] = useState(false);
   const IMEI = "123456789123456789";
-
+  
   const toPersianNumbers = (num) => {
     if (typeof num !== "number") return num;
     return num.toString().replace(/[0-9]/g, (d) => "۰۱۲۳۴۵۶۷۸۹"[d]);
@@ -61,7 +61,7 @@ const Products = ({
     if (loading) return;
     setLoading(true);
 
-    const advertisingId = item?.adsId || item?.adsCode;
+    const advertisingId = item?.adsId || item?.adsCode || item?.id;
 
     if (!advertisingId) {
       setLoading(false);
@@ -69,8 +69,8 @@ const Products = ({
     }
 
     const url = isFavorite
-      ? `https://api.taksize.com/api/v1/Common/Favorite/Remove?IMEI=${IMEI}&advertisingId=${advertisingId}`
-      : `https://api.taksize.com/api/v1/Common/Favorite/Add?IMEI=${IMEI}&advertisingId=${advertisingId}`;
+      ? `https://api.taksize.com/api/v1/Common/Favorite/Remove?IMEI=${IMEI}&advertisingId=${Id}`
+      : `https://api.taksize.com/api/v1/Common/Favorite/Add?IMEI=${IMEI}&advertisingId=${Id}`;
 
     try {
       const res = await fetch(url, {
@@ -100,16 +100,9 @@ const Products = ({
     }
   };
 
-  // ساخت لینک داینامیک
-  const productId = item.adsCode;
-  const href =
-    useCategorySlug && storeId && adsId
-      ? `/${storeId}/${adsId}`
-      : `/${slug}/${productId}`;
-
   return (
     <Link
-      href={href}
+      href={`/${storeId}/${Id}`}
       className="lg:w-[20%] sm:w-[40%] w-[43%]"
       onClick={(e) => e.stopPropagation()}
     >

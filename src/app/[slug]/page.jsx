@@ -56,8 +56,8 @@ const storeDataFetcher = async (id) => {
   if (!res.ok) {
     throw new Error("Network response was not ok");
   }
-
   const data = await res.json();
+
   return data;
 };
 
@@ -87,11 +87,22 @@ const Category = async ({ params }) => {
         <div className="flex max-w-[1400px] mx-auto mt-[25px] w-full justify-center items-center gap-x-5 gap-y-7 flex-wrap text-gray-700 font-regular pb-[50px]">
           {storeData?.data?.adses?.length > 0 ? (
             storeData.data.adses.map((item) => (
-              <Products key={item.id} item={item} slug={slug} />
+              <Products
+                key={item.id}
+                item={item}
+                storeId={item.storeId}
+                Id={item.id}
+              />
             ))
           ) : (
             <div>
-              <Image src={empty} width={200} height={200} alt="not-found" className="mx-auto" />
+              <Image
+                src={empty}
+                width={200}
+                height={200}
+                alt="not-found"
+                className="mx-auto"
+              />
               <h2 className="mt-[20px]">محصولی در این دسته بندی وجود ندارد</h2>
             </div>
           )}

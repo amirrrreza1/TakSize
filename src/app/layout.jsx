@@ -3,6 +3,7 @@ import "./globals.css";
 import "react-toastify/dist/ReactToastify.css";
 import Header from "../Components/Header/Header";
 import { ToastContainer } from "react-toastify";
+import { createTheme } from "@mui/material";
 
 export const viewport =
   "minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, viewport-fit=cover";
@@ -251,6 +252,7 @@ export const metadata = {
     ],
   },
 };
+
 
 export default async function RootLayout({ children }) {
   return (

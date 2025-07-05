@@ -94,7 +94,14 @@ export default function BrandProduct({ params }) {
   return (
     <div className="flex max-w-[1400px] mx-auto mt-[25px] w-full justify-center items-center gap-x-5 gap-y-7 flex-wrap text-gray-700 font-regular pb-[50px]">
       {brandsProducts.map((item) => (
-        <Products key={item.id} item={item} />
+        <>
+          <Products
+            key={item.id}
+            item={item}
+            storeId={item.storeId}
+            Id={item.id}
+          />
+        </>
       ))}
     </div>
   );

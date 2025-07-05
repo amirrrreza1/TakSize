@@ -75,6 +75,7 @@ export default function VerificationCodeForm({ phoneNumber, onBack }) {
 
         toast.success(data.message);
         router.replace("/profile");
+        router.refresh();
       }
     } catch {
       toast.error("خطای شبکه");

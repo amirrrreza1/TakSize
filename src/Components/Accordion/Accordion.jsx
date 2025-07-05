@@ -30,6 +30,7 @@ const productFetcher = async () => {
     }
   );
   const data = await res.json();
+  
   return data;
 };
 
@@ -44,12 +45,19 @@ const AccordionComponents = async ({ StoreInformation, params }) => {
           aria-controls="panel1-content"
           id="panel1-header"
         >
-          <Typography component="span" className="font-bold">
+          <Typography
+            component="span"
+            sx={{ fontFamily: "Vazir" }}
+            className="font-bold"
+          >
             توضیحات تکمیلی
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Typography className="text-center text-gray-500">
+          <Typography
+            className="text-center text-gray-500"
+            sx={{ fontFamily: "Vazir" }}
+          >
             بسیار راحت و با دوام
           </Typography>
         </AccordionDetails>
@@ -60,19 +68,27 @@ const AccordionComponents = async ({ StoreInformation, params }) => {
           aria-controls="panel2-content"
           id="panel2-header"
         >
-          <Typography className="font-bold" component="span">
+          <Typography
+            className="font-bold"
+            sx={{ fontFamily: "Vazir" }}
+            component="span"
+          >
             اطلاعات فروشگاه
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Typography component="div" className="text-center text-gray-500">
+          <Typography
+            component="div"
+            sx={{ fontFamily: "Vazir" }}
+            className="text-center text-gray-500"
+          >
             <div className="flex justify-center items-start flex-col gap-y-2">
               <div className="pb-3">
                 <Image
                   src={`https://api.taksize.com/${StoreInformation.avatar}`}
                   width={50}
                   height={50}
-                  alt=""
+                  alt="Avatar"
                 />
               </div>
               <div className="flex justify-start items-center gap-x-2 pb-3">

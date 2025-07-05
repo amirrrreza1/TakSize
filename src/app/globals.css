@@ -27,6 +27,33 @@
   --lowGray: #939393;
 }
 body {
-  font-family: "Vazir", sans-serif; /* به جای 'Vazir' می‌توانید نام دقیق فونت را قرار دهید */
-  font-feature-settings: "tnum" on; /* فعالسازی اعداد تمام‌نما (tabular numbers) */
+  font-family: "Vazir", sans-serif;
+  font-feature-settings: "tnum" on;
+}
+
+@font-face {
+  font-family: "Vazir";
+  src: url("../assets/fonts/Vazir-Light.woff2") format("woff2"),
+    url("../assets/fonts/Vazir-Light.woff") format("woff"),
+    url("../assets/fonts/Vazir-Light.ttf") format("truetype");
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Vazir";
+  src: url("../assets/fonts/Vazir-Medium.woff2") format("woff2"),
+    url("../assets/fonts/Vazir-Medium.woff") format("woff"),
+    url("../assets/fonts/Vazir-Medium.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Vazir";
+  src: url("../assets/fonts/Vazir-Bold.woff2") format("woff2"),
+    url("../assets/fonts/Vazir-Bold.woff") format("woff"),
+    url("../assets/fonts/Vazir-Bold.ttf") format("truetype");
+  font-weight: 800;
+  font-style: normal;
 }

@@ -11,7 +11,6 @@ const FavoriteAds = () => {
   const [loading, setLoading] = useState(true);
   const IMEI = "123456789123456789";
 
-  // تابع حذف محصول از لیست
   const handleRemoveFromFavorites = (removedAdsId) => {
     setFavoriteAds((prevAds) =>
       prevAds.filter((ad) => ad.adsId !== removedAdsId)
@@ -40,28 +39,15 @@ const FavoriteAds = () => {
         );
 
         const data = await res.json();
-        console.log("Favorite Items:", data.data);
 
         if (data?.isSuccess && Array.isArray(data?.data)) {
-          console.log("Favorite Items:", data.data);
-
           setFavoriteAds(data.data);
         } else {
           console.warn("فرمت داده‌ها درست نیست:", data);
         }
       } catch (err) {
         console.error("خطا در دریافت علاقه‌مندی‌ها:", err);
-        toast.error("خطا در دریافت لیست علاقه‌مندی‌ها", {
-          position: "bottom-center",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-          rtl: true,
-        });
+        toast.error("خطا در دریافت لیست علاقه‌مندی‌ها");
       } finally {
         setLoading(false);
       }
@@ -83,19 +69,12 @@ const FavoriteAds = () => {
       <div className="flex flex-wrap justify-center gap-x-5 gap-y-7 mt-[25px] text-gray-700 font-regular">
         {favoriteAds.length > 0 ? (
           favoriteAds.map((item, index) => {
-            console.log("Mapping favorite item:", {
-              originalItem: item,
-              storeId: item.storeId,
-              adsId: item.adsId,
-              adsCode: item.adsCode,
-            });
-
             return (
               <Products
-                storeId={item.storeId}
-                adsId={item.adsId}
                 key={item?.adsId ?? item?.adsCode ?? index}
                 item={item}
+                storeId={item.storeId}
+                Id={item.adsId}
                 useCategorySlug={true}
                 onRemoveFromFavorites={handleRemoveFromFavorites}
                 isFavoritePage={true}
